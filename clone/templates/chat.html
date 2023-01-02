@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+    <style>
+
+
+
+
+
+        body
+        {
+            overflow: hidden;
+        }
+        *
+        {
+           margin: 0;
+            padding:0 ;
+        }
+
+        .chat
+        {
+           
+           
+          
+            display: flex;
+            
+            
+        }
+
+        .users
+        {
+       
+            width: 40vw;
+        
+            
+        }
+
+
+        .messages
+        {
+        
+            width: 50vw;
+            margin-left: 20px;
+
+   
+
+            
+
+        }
+
+
+      
+      
+              .users
+              {
+                  background-color: black;
+               
+              
+                  height: 100vh;
+                 
+                  overflow: auto;
+              }
+              
+      
+      
+              img
+              {
+                  height: 50px;
+                  width: 50px;
+          
+                  border-radius: 50px ;
+              }
+              .username
+              {
+                 margin-top: 10px;
+                  overflow: auto;
+                  display: flex;
+      
+      
+                   
+           
+              
+                  
+              }
+              .usernames
+              {
+                
+           
+                  display: flex;
+                  align-items: center;
+                  margin-left: 10px;
+              }
+      
+              a{
+                  text-decoration: none;
+                  color: white;
+                  font-family: Arial, Helvetica, sans-serif;
+              }
+      
+      
+      
+
+
+
+
+
+
+    </style>
+
+
+
+
+
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+
+
+
+
+    
+    <div class="chat">
+
+        <div class="users">
+
+            {%for i in photo%}
+    
+            <div class="username">
+                
+        
+                <div> <a href="/{{username}}/{{usersid}}/chat/{{i.id}}/"><img src="/media/{{i.photo}}" alt=""></a> </div>
+                <div class="usernames"><a href="/{{username}}/{{usersid}}/chat/{{i.id}}/">{{i.user}}</a></div>
+        
+          
+        
+            </div>
+        
+            {%endfor%}
+    
+        </div>
+
+
+
+
+
+       
+
+<!-- pass grouname to the js message.html -->
+{{groupname|json_script:"groupname"}}
+<!-- passing username to the consumers -->
+{{username|json_script:"username"}}
+
+
+
+        <div class="messages">
+       
+            
+            
+         
+
+            {% include "message.html" %}
+
+
+        </div>
+
+
+    </div>
+
+        <!-- this is the message section -->
+        
+
+       
+
+
+    </div>
+
+
+
+
+
+  
+    
+</body>
+</html>

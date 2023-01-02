@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <style>
+
+
+     
+        #hello2
+        {
+          
+          color: rgb(255, 255, 255);
+    
+        background-color: black;
+        margin-top: 20px;
+        
+
+        }
+        #hello
+        {
+          
+            color: blue;
+            background-color: aqua;
+
+       
+        margin-top: 20px;
+        }
+
+        #sameusermessagess
+        {
+            
+           
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .me
+        {
+            font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+            color: aquamarine;
+            background-color: rgb(8, 5, 5);
+        }
+        body
+        {
+            overflow: hidden;
+        }
+        .messagebox
+        {
+
+        
+          
+            height: 90vh;
+             
+            overflow: auto;
+           
+            background-color: rgb(108, 118, 126);
+            width: 50vw;
+            margin-top: 20px;
+
+        }
+        
+        #sameusermessagess
+        {
+            display: block;
+         
+     
+            border-radius: 20px;
+
+        }
+
+     .sameuser
+     {
+         color:  blue;
+         background-color: aqua;
+        
+         display: flex;
+ 
+         justify-content: space-between;
+         align-items: center;
+     }
+
+     .differentuser
+     {
+         color: white;
+         display: flex;
+         justify-content: space-between;
+         background-color: rgb(16, 11, 11) ;
+   
+         align-items: center;
+     }
+
+   
+  
+
+     #messagereceived
+     {
+         background-color: transparent;
+         
+         
+
+     }
+
+
+     .usernameimg
+     {
+         height: 20px;
+         width: 20px;
+         margin-right: 20px;
+     }
+    
+   
+
+
+
+
+        .wholemessage
+        {
+            height: 800px;
+            
+           
+        }
+        .message
+        {
+           
+            overflow: auto;
+            height: 100px;
+            display: flex;
+            
+            
+           
+        }
+        textarea
+        {
+            background-color: rgb(219, 200, 200);
+        }
+    </style>
+
+    <link rel="stylesheet" href="message.css">
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+
+  <div class="wholemessage">
+
+    <div class="messagebox">
+
+        <div class="messsage">
+
+            <div class="other">
+
+            <!-- put messsage here -->
+    
+        
+            </div>
+
+
+            {%for i in chat%}
+            <div class="me" id="messagereceived">
+
+            
+        
+             
+            <!-- <textarea name="" id="" cols="30" rows="10">{{i.chatcontent}} </textarea> -->
+              {% if i.username == username %}
+                <div class="sameuser">   
+                      <div class="chat">
+                        {{i.chatcontent}} 
+                </div> 
+                <div class="username">
+                    
+                    {{i.username}}
+                </div>
+                     </div>
+                  {% else %}
+                 <div class="differentuser"> 
+                <div class="chat">{{i.chatcontent}} </div>
+
+                    <div class="username">
+                        {{i.username}}
+                    </div>
+
+                 </div>
+                 {% endif %}
+                <!-- <div class="div">  </div> -->
+                <br>
+
+               
+
+
+                <!-- put your message here -->
+               
+
+            </div>
+
+
+            {%endfor%}
+            <div class="directlyshow">
+
+
+                <div id="sameusermessagess">
+
+                 </div>
+
+
+                <div id="secondmessages">  </div>
+
+            </div>
+
+            
+           
+
+        </div>
+        
+        
+    </div>
+
+
+    <div class="inputmessage">
+        <input type="text" id="textmessage">
+    </div>
+
+    <button id="send" type="submit">send</button>
+
+
+
+  </div>  
+
+
+
+  <script>
+
+    var username=username=JSON.parse(document.getElementById('username').textContent)
+    console.log(username)
+      
+      groupname=JSON.parse(document.getElementById('groupname').textContent)
+      console.log("groupname is ",groupname)
+      
+    //websocket connectt
+    var ws=new WebSocket("ws://"+window.location.host+"/ws/sc/"+groupname+"/")
+
+    ws.onopen=function(event)
+    {
+        console.log("opennning>>>>>>",event)
+        
+    }
+
+    
+    ws.onmessage=function(event){
+        console.log("message received")
+        console.log(event)
+        var k=event['data']
+        var l=JSON.parse(event['data'])
+        console.log(l.message)
+        console.log(l.username)
+       
+        if (l.username==username)
+        {
+            document.getElementById("secondmessages").innerHTML+="<div id=\"hello\" >"
+
+         +l.message+
+           
+                
+                  
+                "</div>"
+        
+
+
+
+
+        }
+
+        else
+        {
+           document.getElementById("secondmessages").innerHTML+="<div id=\"hello2\">"+l.message+"</div>"
+        
+           
+           
+       
+
+        }
+     
+    
+        
+        
+        
+
+        
+
+
+
+
+    }
+
+    ws.onerror=function(event)
+    {
+        console.log("Erroe occured")
+    }
+
+    ws.onclose=function(event)
+    {
+        console.log("websocket disconnected")
+    }
+
+    //on click on the send button user will able t see the messaage template  -->
+    document.getElementById("send").onclick=function()
+    {
+  
+        var message=document.getElementById('textmessage').value
+        console.log(message)
+        console.log("Tyoe of the message is ",typeof(message))
+        var k={message,username}
+        console.log(k)
+        l=JSON.stringify(k)
+        console.log("type of the l is",typeof(l))
+
+
+        ws.send(l)
+
+    }
+
+
+    
+
+
+     
+
+
+
+
+  </script>
+
+
+
+
+
+   
+
+
+  
+    
+</body>
+
+</html>

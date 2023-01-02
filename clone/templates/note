@@ -1,0 +1,7 @@
+after signup user dirctly jump into the usrersection {% with  as  %}
+    
+{% endwith %}
+
+from user  section user should be directlty jump into the chat section and it never come back again
+
+//how to make table in sql?
